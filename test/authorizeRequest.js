@@ -60,7 +60,7 @@ describe('OAuth2Server.authorizeRequest()', function() {
 			request(app)
 				.get('/')
 				.set('Authorization', 'Bearer thom')
-				.expect(400, /the access token provided is invalid/i, done);
+				.expect(401, /the access token provided is invalid/i, done);
 		});
 
 		it('should detect malformed header', function (done) {
@@ -89,7 +89,7 @@ describe('OAuth2Server.authorizeRequest()', function() {
 				.post('/')
 				.set('Content-Type', 'application/x-www-form-urlencoded')
 				.send({ access_token: 'thom' })
-				.expect(400, /the access token provided is invalid/i, done);
+				.expect(401, /the access token provided is invalid/i, done);
 		});
 
 		it('should not allow GET when access token in body', function (done) {
@@ -106,7 +106,7 @@ describe('OAuth2Server.authorizeRequest()', function() {
 
 			request(app)
 				.get('/?access_token=thom')
-				.expect(400, /the access token provided is invalid/i, done);
+				.expect(401, /the access token provided is invalid/i, done);
 		});
 
 		it('should allow exactly one method (get: query + auth)', function (done) {
@@ -135,7 +135,7 @@ describe('OAuth2Server.authorizeRequest()', function() {
 
 			request(app)
 				.get('/?access_token=thom')
-				.expect(400, /the access token provided is invalid/i, done);
+				.expect(401, /the access token provided is invalid/i, done);
 		});
 
 		it('should detect invalid token', function (done){
@@ -149,7 +149,7 @@ describe('OAuth2Server.authorizeRequest()', function() {
 
 			request(app)
 				.get('/?access_token=thom')
-				.expect(400, /the access token provided has expired/i, done);
+				.expect(401, /the access token provided has expired/i, done);
 		});
 
 		it('should passthrough with a valid token', function (done){
