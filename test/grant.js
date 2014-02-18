@@ -93,7 +93,7 @@ describe('Grant', function() {
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send({ grant_type: 'password' })
         .expect('WWW-Authenticate', 'Basic realm="Service"')
-        .expect(400, /invalid or missing client_id parameter/i, done);
+        .expect(401, /invalid or missing client_id parameter/i, done);
     });
 
     it('should check client_id matches regex', function (done) {
@@ -108,7 +108,7 @@ describe('Grant', function() {
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send({ grant_type: 'password', client_id: 'thom' })
         .expect('WWW-Authenticate', 'Basic realm="Service"')
-        .expect(400, /invalid or missing client_id parameter/i, done);
+        .expect(401, /invalid or missing client_id parameter/i, done);
     });
 
     it('should check client_secret exists', function (done) {
@@ -119,7 +119,7 @@ describe('Grant', function() {
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send({ grant_type: 'password', client_id: 'thom' })
         .expect('WWW-Authenticate', 'Basic realm="Service"')
-        .expect(400, /missing client_secret parameter/i, done);
+        .expect(401, /missing client_secret parameter/i, done);
     });
 
     it('should extract credentials from body', function (done) {
@@ -138,7 +138,7 @@ describe('Grant', function() {
         .post('/oauth/token')
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send({ grant_type: 'password', client_id: 'thom', client_secret: 'nightworld' })
-        .expect(400, done);
+        .expect(401, done);
     });
 
     it('should extract credentials from header (Basic)', function (done) {
@@ -158,7 +158,7 @@ describe('Grant', function() {
         .send('grant_type=password&username=test&password=invalid')
         .set('Authorization', 'Basic dGhvbTpuaWdodHdvcmxk')
         .expect('WWW-Authenticate', 'Basic realm="Service"')
-        .expect(400, done);
+        .expect(401, done);
     });
 
     it('should detect unsupported grant_type', function (done) {
@@ -198,7 +198,7 @@ describe('Grant', function() {
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send({ grant_type: 'password', client_id: 'thom', client_secret: 'nightworld' })
         .expect('WWW-Authenticate', 'Basic realm="Service"')
-        .expect(400, /client credentials are invalid/i, done);
+        .expect(401, /client credentials are invalid/i, done);
     });
   });
 
@@ -221,7 +221,7 @@ describe('Grant', function() {
         .set('Content-Type', 'application/x-www-form-urlencoded')
         .send({ grant_type: 'password', client_id: 'thom', client_secret: 'nightworld' })
         .expect('WWW-Authenticate', 'Basic realm="Service"')
-        .expect(400, /grant type is unauthorised for this client_id/i, done);
+        .expect(401, /grant type is unauthorised for this client_id/i, done);
     });
   });
 
